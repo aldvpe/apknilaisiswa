@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APLIKASI NILAI SISWA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>APLIKASI NILAI SISWA</h1>
+    </div>
+
+    {% if error %}
+    <div class="alert-error">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/">
+        <div class="form-group">
+            <label for="nama">Nama Siswa:</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jam">4. Pilih Jam / Jadwal Kelas:</label>
+            <select id="jam" name="jam" required>
+                <option value="">-- Pilih Jam Pelajaran --</option>
+                <option value="Sesi 1 (07:00 - 09:00)">Sesi 1 (07:00 - 09:00)</option>
+                <option value="Sesi 2 (09:15 - 11:15)">Sesi 2 (09:15 - 11:15)</option>
+                <option value="Sesi 3 (12:30 - 14:30)">Sesi 3 (12:30 - 14:30)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="tugas">1. Input Nilai Tugas (0-100):</label>
+            <input type="number" id="tugas" name="tugas" min="0" max="100" step="0.1" placeholder="Bobot 30%" required>
+        </div>
+
+        <div class="form-group">
+            <label for="uts">2. Nilai UTS (0-100):</label>
+            <input type="number" id="uts" name="uts" min="0" max="100" step="0.1" placeholder="Bobot 30%" required>
+        </div>
+
+        <div class="form-group">
+            <label for="uas">3. Nilai UAS (0-100):</label>
+            <input type="number" id="uas" name="uas" min="0" max="100" step="0.1" placeholder="Bobot 40%" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Proses & Hitung Nilai</button>
+    </form>
+
+    {% if hasil %}
+    <div class="result-card">
+        <h2>HASIL PENILAIAN</h2>
+        <div class="result-row"><span>Nama:</span> <strong>{{ hasil.nama }}</strong></div>
+        <div class="result-row"><span>Jadwal Jam:</span> <strong>{{ hasil.jam }}</strong></div>
+        <hr style="margin: 10px 0; border: 0.5px solid #eee;">
+        <div class="result-row"><span>Nilai Tugas (30%):</span> <span>{{ hasil.tugas }}</span></div>
+        <div class="result-row"><span>Nilai UTS (30%):</span> <span>{{ hasil.uts }}</span></div>
+        <div class="result-row"><span>Nilai UAS (40%):</span> <span>{{ hasil.uas }}</span></div>
+        <hr style="margin: 10px 0; border: 0.5px solid #eee;">
+        <div class="result-row"><span>Nilai Akhir:</span> <strong>{{ hasil.nilai_akhir }}</strong></div>
+        <div class="result-row"><span>Predikat:</span> <strong>{{ hasil.predikat }}</strong></div>
+
+        <div class="status-badge {% if hasil.status == 'LULUS' %}LULUS{% else %}TIDAK{% endif %}">
+            STATUS: {{ hasil.status }}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
